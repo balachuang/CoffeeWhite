@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>咖啡小白</title>
+  </head>
+
+  <body>
+    <div id="coffee-main">
+      <div id="header">{{mainTitle}}</div>
+      <div id="menu">
+        <ul>
+          <li v-for="(item, index) in menuArray">
+            <span v-on:click="onClickMenu($event)">{{ item.name }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 基本參數 -->
+      <div id="parameter">
+        乾粉重: <input id="parameter-bean-weight" v-model="powderWeight" v-on:blur="reCalculation()" />
+        粉水比: <input id="parameter-powder-water-ratio" v-model="pwRatio" v-on:blur="reCalculation()" />
+        一二段水量微調: <input id="parameter-12-ratio" v-model="swRatio" v-on:blur="reCalculation()" />
+      </div>
+
+      <!-- 沖煮手法 -->
+      <div id="cooking-method-container">
+        <div class="cooking-method" v-for="(item, index) in menuArray">
+          <div class="cooking-method-title">{{ item.name }}</div>
+          <div class="cooking-steps" v-for="(step, sidx) in item.steps">
+            <div class="cooking-step-desc">{{ step.desc }}</div>
+            <div class="cooking-step-param">注水量: {{ step.water }}</div>
+            <div class="cooking-step-param">結束時間: {{ step.time }}</div>
+            <div class="cooking-step-param">說明: {{ step.remark }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="js/coffeeMethods.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+</html>
+
