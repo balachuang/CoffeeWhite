@@ -19,9 +19,15 @@
 
       <!-- 基本參數 -->
       <div id="parameter">
-        乾粉重: <input id="parameter-bean-weight" v-model="powderWeight" v-on:blur="reCalculation()" />
-        粉水比: <input id="parameter-powder-water-ratio" v-model="pwRatio" v-on:blur="reCalculation()" />
-        一二段水量微調: <input id="parameter-12-ratio" v-model="swRatio" v-on:blur="reCalculation()" />
+        乾粉重: <input type="number" id="parameter-bean-weight"
+                      v-model.trim="powderWeight"
+                      v-on:focus="onFocusInput" />
+        粉水比: <input type="number" id="parameter-powder-water-ratio"
+                      v-model.trim="pwRatio"
+                      v-on:focus="onFocusInput" />
+        一二段水量微調: <input type="number" id="parameter-12-ratio"
+                             v-model.trim="swRatio"
+                             v-on:focus="onFocusInput" />
       </div>
 
       <!-- 沖煮手法 -->
@@ -30,7 +36,7 @@
           <div class="cooking-method-title">{{ item.name }}</div>
           <div class="cooking-steps" v-for="(step, sidx) in item.steps">
             <div class="cooking-step-desc">{{ step.desc }}</div>
-            <div class="cooking-step-param">注水量: {{ step.water }}</div>
+            <div class="cooking-step-param">目標水量: {{ step.water }}</div>
             <div class="cooking-step-param">結束時間: {{ step.time }}</div>
             <div class="cooking-step-param">說明: {{ step.remark }}</div>
           </div>

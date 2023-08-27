@@ -5,7 +5,7 @@ const vm = Vue.createApp({
             mainTitle: "咖啡小白的無腦記錄",
 			powderWeight: 18, // 乾粉重 (g)
 			pwRatio: 15,      // 粉水比, 15 表示分水比為 1:15
-			swRatio: 1,       // 一二段水量微調, 2 表示一二段水量比為 2:1
+			swRatio: 1.5,       // 一二段水量微調, 2 表示一二段水量比為 2:1
             menuArray: JSON.parse(JSON.stringify(coffeeMethods)),
 		}
 	},
@@ -19,10 +19,14 @@ const vm = Vue.createApp({
 			$('#menu li').removeClass('selected');
 			$('div.cooking-method').removeClass('selected');
 
-			$(e.srcElement).closest('li').addClass('selected');
-			let method = $(e.srcElement).text();
-			let methodObj = $('div.cooking-method-title:contains("' + method + '")');
-			methodObj.closest('div.cooking-method').addClass('selected');
+			let selectObj = $(e.srcElement);
+			let methName = $(e.srcElement).text();
+			let methObj = $('div.cooking-method-title:contains("' + methName + '")');
+			selectObj.closest('li').addClass('selected');
+			methObj.closest('div.cooking-method').addClass('selected');
+		},
+		onFocusInput(e) {
+			$(e.srcElement).select();
 		},
 		reCalculation() {
 			this.menuArray = JSON.parse(JSON.stringify(coffeeMethods));
@@ -47,6 +51,23 @@ const vm = Vue.createApp({
 					this.menuArray[i].steps[j].water = water;
 				}
 			}
+		}
+	},
+	watch: {
+		powderWeight: function(val, oldVal) {
+			this.value = val;
+			this.oldValue = oldVal;
+			this.reCalculation();
+		},
+		pwRatio: function(val, oldVal) {
+			this.value = val;
+			this.oldValue = oldVal;
+			this.reCalculation();
+		},
+		swRatio: function(val, oldVal) {
+			this.value = val;
+			this.oldValue = oldVal;
+			this.reCalculation();
 		}
 	}
 }).mount('#coffee-main');
