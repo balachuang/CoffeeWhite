@@ -10,7 +10,7 @@ body {
   background-image: url("../img/beans.jpg");
   background-blend-mode: multiply;
   font-family: Verdana, Geneva, Tahoma, 黑體, sans-serif;
-  font-size: 1em;
+  font-size: 1.5em;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -49,13 +49,13 @@ input::-webkit-inner-spin-button {
 }
 
 #header {
-  font-size: 1.5em;
+  font-size: 150%;
   font-weight: bolder;
 }
 
 #menu li {
   display: inline;
-  font-size: 1.2em;
+  font-size: 120%;
   padding: 5px 20px;
   cursor: pointer;
 }
