@@ -18,7 +18,7 @@ let coffeeMethods = [{
         remark: ''
     }]
 },{
-    name: '三刀流',
+    name: '三刀流 (阿迪推薦)',
     steps: [{
         desc: '悶蒸',
         water: 'p*b',
@@ -99,4 +99,3 @@ let coffeeMethods = [{
         remark: '水溫降到 70℃ 總時間不要超過 3 分鐘'
     }]
 }];
-S
