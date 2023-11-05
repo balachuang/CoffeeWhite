@@ -1,16 +1,29 @@
+const cookieName = {
+	pWeight: '__cwparam_powder_weight__',
+	pwRatio: '__cwparam_powder_water_ratio__',
+	blRatio: '__cwparam_bloom_water_ratio__',
+	swRatio: '__cwparam_second_water_ratio__'
+};
+
 // Vue 3.0 with options-base style
 const vm = Vue.createApp({
 	data() {
 		return {
-            mainTitle: "咖啡小白的無腦記錄",
-			powderWeight: 18, // 乾粉重 (g)
-			pwRatio: 15,      // 粉水比, 15 表示分水比為 1:15
-			blRatio: 2,       // 悶蒸 (bloom) 手量比, 2 表示為粉重的兩倍
-			swRatio: 1.5,     // 一二段水量微調, 2 表示一二段水量比為 2:1
+            mainTitle: "我就是不會心算",
+			pWeight: 18,  // 乾粉重 (g)
+			pwRatio: 15,  // 粉水比, 15 表示分水比為 1:15
+			blRatio: 2,   // 悶蒸 (bloom) 水量比, 2 表示為粉重的兩倍
+			swRatio: 1.5, // 一二段水量微調, 2 表示一二段水量比為 2:1
             menuArray: JSON.parse(JSON.stringify(coffeeMethods)),
 		}
 	},
 	mounted: function () {
+		// initial variables from cookies here
+		this.pWeight = this.readFromCookie(cookieName.pWeight, this.pWeight);
+		this.pwRatio = this.readFromCookie(cookieName.pwRatio, this.pwRatio);
+		this.blRatio = this.readFromCookie(cookieName.blRatio, this.blRatio);
+		this.swRatio = this.readFromCookie(cookieName.swRatio, this.swRatio);
+
 		$('#menu li:first').addClass('selected');
 		$('div.cooking-method:first').addClass('selected');
 		this.reCalculation();
@@ -38,7 +51,7 @@ const vm = Vue.createApp({
 				let menu = this.menuArray[i];
 				for (let j=0; j<menu.steps.length; ++j) {
 					let waterStr = menu.steps[j].water;
-					waterStr = waterStr.replace(/p/g, '' + this.powderWeight);
+					waterStr = waterStr.replace(/p/g, '' + this.pWeight);
 					waterStr = waterStr.replace(/r/g, '' + this.pwRatio);
 					waterStr = waterStr.replace(/b/g, '' + this.blRatio);
 					waterStr = waterStr.replace(/s/g, '' + this.swRatio);
@@ -63,27 +76,52 @@ const vm = Vue.createApp({
 					$(thObjs[n]).css('width', (tbWidth - th1Width) / thObjs.length);
 				}
 			};
+		},
+		syncCookie() {
+			_p = Cookies.get(cookieName.pWeight);
+			_r = Cookies.get(cookieName.pwRatio);
+			_b = Cookies.get(cookieName.blRatio);
+			_s = Cookies.get(cookieName.swRatio);
+			if (_p == undefined) Cookies.set(cookieName.pWeight, this.pWeight);
+			else				 this.pWeight = _p;
+			if (_r == undefined) Cookies.set(cookieName.pwRatio, this.pwRatio);
+			else				 this.pWeight = _r;
+			if (_b == undefined) Cookies.set(cookieName.blRatio, this.blRatio);
+			else				 this.pWeight = _b;
+			if (_s == undefined) Cookies.set(cookieName.swRatio, this.swRatio);
+			else				 this.pWeight = _s;
+		},
+		readFromCookie(name, defaultVal) {
+			val = Cookies.get(name);
+			return (val == undefined) ? defaultVal : val;
+		},
+		saveToCookie(name, val) {
+			Cookies.set(name, val);
 		}
 	},
 	watch: {
-		powderWeight: function(val, oldVal) {
+		pWeight: function(val, oldVal) {
 			this.value = val;
 			this.oldValue = oldVal;
+			this.saveToCookie(cookieName.pWeight, this.value);
 			this.reCalculation();
 		},
 		pwRatio: function(val, oldVal) {
 			this.value = val;
 			this.oldValue = oldVal;
+			this.saveToCookie(cookieName.pwRatio, this.value);
 			this.reCalculation();
 		},
 		blRatio: function(val, oldVal) {
 			this.value = val;
 			this.oldValue = oldVal;
+			this.saveToCookie(cookieName.blRatio, this.value);
 			this.reCalculation();
 		},
 		swRatio: function(val, oldVal) {
 			this.value = val;
 			this.oldValue = oldVal;
+			this.saveToCookie(cookieName.swRatio, this.value);
 			this.reCalculation();
 		}
 	}
