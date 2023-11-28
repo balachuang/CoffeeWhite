@@ -2,7 +2,8 @@ const cookieName = {
 	pWeight: '__cwparam_powder_weight__',
 	pwRatio: '__cwparam_powder_water_ratio__',
 	blRatio: '__cwparam_bloom_water_ratio__',
-	swRatio: '__cwparam_second_water_ratio__'
+	swRatio: '__cwparam_second_water_ratio__',
+	wdRatio: '__cwparam_water_in_powder_ratio__'
 };
 
 // Vue 3.0 with options-base style
@@ -14,6 +15,7 @@ const vm = Vue.createApp({
 			pwRatio: 15,  // 粉水比, 15 表示分水比為 1:15
 			blRatio: 2,   // 悶蒸 (bloom) 水量比, 2 表示為粉重的兩倍
 			swRatio: 1.5, // 一二段水量微調, 2 表示一二段水量比為 2:1
+			wdRatio: 0,   // 咖啡粉吸水比 (每克乾粉可吸收的水重), 0 表示不管這個值
             menuArray: JSON.parse(JSON.stringify(coffeeMethods)),
 		}
 	},
@@ -23,6 +25,7 @@ const vm = Vue.createApp({
 		this.pwRatio = this.readFromCookie(cookieName.pwRatio, this.pwRatio);
 		this.blRatio = this.readFromCookie(cookieName.blRatio, this.blRatio);
 		this.swRatio = this.readFromCookie(cookieName.swRatio, this.swRatio);
+		this.wdRatio = this.readFromCookie(cookieName.wdRatio, this.wdRatio);
 
 		$('#menu li:first').addClass('selected');
 		$('div.cooking-method:first').addClass('selected');
@@ -55,6 +58,7 @@ const vm = Vue.createApp({
 					waterStr = waterStr.replace(/r/g, '' + this.pwRatio);
 					waterStr = waterStr.replace(/b/g, '' + this.blRatio);
 					waterStr = waterStr.replace(/s/g, '' + this.swRatio);
+					waterStr = waterStr.replace(/w/g, '' + this.wdRatio);
 					let waterNum = Math.round(eval(waterStr));
 
 					this.menuArray[i].steps[j].water = waterNum;
@@ -82,14 +86,17 @@ const vm = Vue.createApp({
 			_r = Cookies.get(cookieName.pwRatio);
 			_b = Cookies.get(cookieName.blRatio);
 			_s = Cookies.get(cookieName.swRatio);
+			_w = Cookies.get(cookieName.wdRatio);
 			if (_p == undefined) Cookies.set(cookieName.pWeight, this.pWeight);
 			else				 this.pWeight = _p;
 			if (_r == undefined) Cookies.set(cookieName.pwRatio, this.pwRatio);
-			else				 this.pWeight = _r;
+			else				 this.pwRatio = _r;
 			if (_b == undefined) Cookies.set(cookieName.blRatio, this.blRatio);
-			else				 this.pWeight = _b;
+			else				 this.blRatio = _b;
 			if (_s == undefined) Cookies.set(cookieName.swRatio, this.swRatio);
-			else				 this.pWeight = _s;
+			else				 this.swRatio = _s;
+			if (_w == undefined) Cookies.set(cookieName.wdRatio, this.wdRatio);
+			else				 this.wdRatio = _w;
 		},
 		readFromCookie(name, defaultVal) {
 			val = Cookies.get(name);
@@ -122,6 +129,12 @@ const vm = Vue.createApp({
 			this.value = val;
 			this.oldValue = oldVal;
 			this.saveToCookie(cookieName.swRatio, this.value);
+			this.reCalculation();
+		},
+		wdRatio: function(val, oldVal) {
+			this.value = val;
+			this.oldValue = oldVal;
+			this.saveToCookie(cookieName.wdRatio, this.value);
 			this.reCalculation();
 		}
 	}
