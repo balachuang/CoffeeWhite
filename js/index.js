@@ -108,30 +108,35 @@ const vm = Vue.createApp({
 	},
 	watch: {
 		pWeight: function(val, oldVal) {
+			if (val === '') return;
 			this.value = val;
 			this.oldValue = oldVal;
 			this.saveToCookie(cookieName.pWeight, this.value);
 			this.reCalculation();
 		},
 		pwRatio: function(val, oldVal) {
+			if (val === '') return;
 			this.value = val;
 			this.oldValue = oldVal;
 			this.saveToCookie(cookieName.pwRatio, this.value);
 			this.reCalculation();
 		},
 		blRatio: function(val, oldVal) {
+			if (val === '') return;
 			this.value = val;
 			this.oldValue = oldVal;
 			this.saveToCookie(cookieName.blRatio, this.value);
 			this.reCalculation();
 		},
 		swRatio: function(val, oldVal) {
+			if (val === '') return;
 			this.value = val;
 			this.oldValue = oldVal;
 			this.saveToCookie(cookieName.swRatio, this.value);
 			this.reCalculation();
 		},
 		wdRatio: function(val, oldVal) {
+			if (val === '') return;
 			this.value = val;
 			this.oldValue = oldVal;
 			this.saveToCookie(cookieName.wdRatio, this.value);
