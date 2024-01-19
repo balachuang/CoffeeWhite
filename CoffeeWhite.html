@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>不想心算</title>
+  </head>
+
+  <body>
+    <div id="coffee-main">
+      <div id="header">{{mainTitle}}</div>
+      <div id="menu">
+        <ul>
+          <li v-for="(item, index) in menuArray">
+            <span v-on:click="onClickMenu($event)">{{ item.name }}</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- 基本參數 -->
+      <div id="parameter">
+        乾粉重: <input type="number" id="parameter-bean-weight"
+                      v-model.trim="pWeight"
+                      v-on:focus="onFocusInput" />
+        粉水比: <input type="number" id="parameter-powder-water-ratio"
+                      v-model.trim="pwRatio"
+                      v-on:focus="onFocusInput" />
+        悶蒸水粉比: <input type="number" id="parameter-bloom-water-ratio"
+                      v-model.trim="blRatio"
+                      v-on:focus="onFocusInput" />
+        一二段水量微調: <input type="number" id="parameter-12-ratio"
+                             v-model.trim="swRatio"
+                             v-on:focus="onFocusInput" />
+        乾粉吸水比: <input type="number" id="parameter-water-in-dry-powder-ratio"
+                             v-model.trim="wdRatio"
+                             v-on:focus="onFocusInput" />
+      </div>
+
+      <!-- 沖煮手法 -->
+      <div id="cooking-method-container">
+        <div class="cooking-method" v-for="(item, index) in menuArray">
+          <div class="cooking-method-title">{{ item.name }}</div>
+          <table>
+            <tr>
+              <th>步驟</th>
+              <th v-for="(step, sidx) in item.steps">{{ step.desc }}</th>
+            </tr>
+            <tr>
+              <td>本次水量</td>
+              <td v-for="(step, sidx) in item.steps">{{ step.water }} g</td>
+            </tr>
+            <tr>
+              <td>總注水量</td>
+              <td v-for="(step, sidx) in item.steps" style="color: yellow;">{{ step.totalWater }} g</td>
+            </tr>
+            <tr>
+              <td>結束時間</td>
+              <td v-for="(step, sidx) in item.steps">{{ step.time }}</td>
+            </tr>
+            <tr>
+              <td>說明</td>
+              <td v-for="(step, sidx) in item.steps" style="vertical-align: top;">{{ step.remark }}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </body>
+
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.5/dist/js.cookie.min.js"></script>
+  <script type="text/javascript" src="js/coffeeMethods.js"></script>
+  <script type="text/javascript" src="js/index.js"></script>
+</html>
+

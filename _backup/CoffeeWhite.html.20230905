@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>咖啡小白</title>
+  </head>
+
+  <body>
+  </body>
+
+  <script>
+    location.href = 'index_v2.html';
+  </script>
+</html>
+
